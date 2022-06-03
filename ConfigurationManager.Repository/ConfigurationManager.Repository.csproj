@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Seeds\**" />
+    <EmbeddedResource Remove="Seeds\**" />
+    <None Remove="Seeds\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Configurations\AuditLogConfiguration.cs" />
+    <Compile Remove="Configurations\CheckBoxConfiguration.cs" />
+    <Compile Remove="Configurations\ClusterConfiguration.cs" />
+    <Compile Remove="Configurations\ComboBoxConfiguration.cs" />
+    <Compile Remove="Configurations\DateConfiguration.cs" />
+    <Compile Remove="Configurations\EnvironmentConfiguration.cs" />
+    <Compile Remove="Configurations\JsonConfiguration.cs" />
+    <Compile Remove="Configurations\NumberBoxConfiguration.cs" />
+    <Compile Remove="Configurations\ParameterConfiguration.cs" />
+    <Compile Remove="Configurations\SectionConfiguration.cs" />
+    <Compile Remove="Configurations\SwitchConfiguration.cs" />
+    <Compile Remove="Configurations\TemplateConfiguration.cs" />
+    <Compile Remove="Configurations\TextAreaConfiguration.cs" />
+    <Compile Remove="Configurations\TextBoxConfiguration.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ConfigurationManager.Core\ConfigurationManager.Core.csproj" />
+  </ItemGroup>
+
+</Project>

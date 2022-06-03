@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Models\ParameterObjects\**" />
+    <EmbeddedResource Remove="Models\ParameterObjects\**" />
+    <None Remove="Models\ParameterObjects\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Models\AuditLog.cs" />
+    <Compile Remove="Models\Cluster.cs" />
+    <Compile Remove="Models\Environment.cs" />
+    <Compile Remove="Models\Parameter.cs" />
+    <Compile Remove="Models\ParameterType.cs" />
+    <Compile Remove="Models\Template.cs" />
+  </ItemGroup>
+
+</Project>
