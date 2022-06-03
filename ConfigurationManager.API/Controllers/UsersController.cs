@@ -62,5 +62,7 @@ namespace ConfigurationManager.API.Controllers
             await _service.RemoveAsync(user);
             return CreateActionResult(CustomResponseDto<NoContentDto>.Success(204));
         }
+
+        //test
     }
 }
