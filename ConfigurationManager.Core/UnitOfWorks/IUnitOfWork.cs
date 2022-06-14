@@ -1,6 +1,6 @@
 ﻿namespace ConfigurationManager.Core.UnitOfWorks
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork : IDisposable
     {
         Task CommitAsync();
         void Commit();

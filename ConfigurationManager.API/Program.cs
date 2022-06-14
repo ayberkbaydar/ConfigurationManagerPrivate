@@ -1,3 +1,4 @@
+using ConfigurationManager.Core.MongoDbContext;
 using ConfigurationManager.Core.Repositories;
 using ConfigurationManager.Core.Services;
 using ConfigurationManager.Core.UnitOfWorks;
@@ -21,6 +22,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.Configure<DbConfiguration>(builder.Configuration.GetSection("MongoDbConnection"));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IMongoContext, MongoContext>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped(typeof(IGenericService<>), typeof(GenericService<>));
 builder.Services.AddAutoMapper(typeof(MapProfile));

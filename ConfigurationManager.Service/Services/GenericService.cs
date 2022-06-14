@@ -13,33 +13,18 @@ namespace ConfigurationManager.Service.Services
     {
         private readonly IGenericRepository<T> _repository;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMongoCollection<T> _mongoCollection;
-        private readonly IOptions<DbConfiguration> _options;
 
-        public GenericService(IGenericRepository<T> repository, IUnitOfWork unitOfWork, IOptions<DbConfiguration> options)
+        public GenericService(IGenericRepository<T> repository, IUnitOfWork unitOfWork)
         {
             _repository = repository;
             _unitOfWork = unitOfWork;
-            _options = options;
-            var mongoClient = new MongoClient(options.Value.ConnectionString);
-            var mongoDatabase = mongoClient.GetDatabase(options.Value.DatabaseName);
-            _mongoCollection = mongoDatabase.GetCollection<T>(options.Value.CollectionName);
         }
 
         public async Task<T> AddAsync(T entity)
         {
-            if (_options == null)
-            {
                 await _repository.AddAsync(entity);
                 await _unitOfWork.CommitAsync();
                 return entity;
-            }
-            else
-            {
-                await _mongoCollection.InsertOneAsync(entity);
-                return entity;
-            }
-
         }
 
         public async Task<IEnumerable<T>> AddRangeAsync(IEnumerable<T> entities)

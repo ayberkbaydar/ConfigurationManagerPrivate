@@ -13,12 +13,10 @@ namespace ConfigurationManager.Service.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
-        internal readonly IOptions<DbConfiguration> _options;
-        public UserService(IGenericRepository<User> repository, IUnitOfWork unitOfWork, IMapper mapper, IUserRepository userRepository, IOptions<DbConfiguration> options) : base(repository, unitOfWork, options)
+        public UserService(IGenericRepository<User> repository, IUnitOfWork unitOfWork, IMapper mapper, IUserRepository userRepository) : base(repository, unitOfWork)
         {
             _userRepository = userRepository;
             _mapper = mapper;
-            _options = options;
         }
 
         public async Task<CustomResponseDto<List<UserDto>>> GetUsers()
