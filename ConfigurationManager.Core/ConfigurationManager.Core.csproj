@@ -21,4 +21,9 @@
     <Compile Remove="Models\Template.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="MongoDB.Bson" Version="2.16.0" />
+    <PackageReference Include="MongoDB.Driver.Core" Version="2.16.0" />
+  </ItemGroup>
+
 </Project>

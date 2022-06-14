@@ -2,6 +2,7 @@ using ConfigurationManager.Core.Repositories;
 using ConfigurationManager.Core.Services;
 using ConfigurationManager.Core.UnitOfWorks;
 using ConfigurationManager.Repository;
+using ConfigurationManager.Repository.Providers.MongoDB;
 using ConfigurationManager.Repository.Repositories;
 using ConfigurationManager.Repository.UnitOfWorks;
 using ConfigurationManager.Service.Mappings;
@@ -18,6 +19,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.Configure<DbConfiguration>(builder.Configuration.GetSection("MongoDbConnection"));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped(typeof(IGenericService<>), typeof(GenericService<>));

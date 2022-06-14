@@ -1,6 +1,9 @@
 ﻿using ConfigurationManager.Core.Repositories;
+using ConfigurationManager.Repository.Providers.MongoDB;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System.Linq.Expressions;
+using MongoDB.Driver;
 
 namespace ConfigurationManager.Repository.Repositories
 {
@@ -8,16 +11,36 @@ namespace ConfigurationManager.Repository.Repositories
     {
         protected readonly AppDbContext _context;
         private readonly DbSet<T> _dbset;
+        internal readonly IMongoCollection<T> _collection;
+        private readonly DbConfiguration _options;
 
-        public GenericRepository(AppDbContext context)
+        public GenericRepository(AppDbContext context, IOptions<DbConfiguration> options)
         {
             _context = context;
             _dbset = _context.Set<T>();
+            _options = options.Value;
+            var client = new MongoClient(_options.ConnectionString);
+            var database = client.GetDatabase(_options.DatabaseName);
+            _collection = database.GetCollection<T>(_options.CollectionName);
         }
+        //public GenericRepository(IOptions<DbConfiguration> options)
+        //{
+        //    _options = options.Value;
+        //    var client = new MongoClient(_options.ConnectionString);
+        //    var database = client.GetDatabase(_options.DatabaseName);
+        //    _collection = database.GetCollection<T>(_options.CollectionName);
+        //}
 
         public async Task AddAsync(T entity)
         {
-            await _dbset.AddAsync(entity);
+            if (_context == null)
+            {
+                await _collection.InsertOneAsync(entity).ConfigureAwait(false);
+            }
+            else
+            {
+                await _dbset.AddAsync(entity);
+            }
         }
 
         public async Task AddRangeAsync(IEnumerable<T> entities)
