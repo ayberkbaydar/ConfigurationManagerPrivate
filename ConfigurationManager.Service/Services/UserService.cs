@@ -13,7 +13,7 @@ namespace ConfigurationManager.Service.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
-        public UserService(IGenericRepository<User> repository, IUnitOfWork unitOfWork, IMapper mapper, IUserRepository userRepository) : base(repository, unitOfWork)
+        public UserService(IGenericRepository<User> repository, IUnitOfWork<User> unitOfWork, IMapper mapper, IUserRepository userRepository) : base(repository, unitOfWork)
         {
             _userRepository = userRepository;
             _mapper = mapper;

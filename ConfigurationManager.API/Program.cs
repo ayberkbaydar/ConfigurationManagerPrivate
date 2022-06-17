@@ -1,15 +1,14 @@
+using ConfigurationManager.Core;
 using ConfigurationManager.Core.MongoDbContext;
 using ConfigurationManager.Core.Repositories;
 using ConfigurationManager.Core.Services;
 using ConfigurationManager.Core.UnitOfWorks;
-using ConfigurationManager.Repository;
 using ConfigurationManager.Repository.Providers.MongoDB;
 using ConfigurationManager.Repository.Repositories;
 using ConfigurationManager.Repository.UnitOfWorks;
 using ConfigurationManager.Service.Mappings;
 using ConfigurationManager.Service.Services;
-using Microsoft.EntityFrameworkCore;
-using System.Reflection;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,19 +20,23 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.Configure<DbConfiguration>(builder.Configuration.GetSection("MongoDbConnection"));
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IMongoContext, MongoContext>();
-builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+//builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+//builder.Services.AddScoped<IMongoContext, MongoContext>();
+builder.Services.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
+builder.Services.AddScoped(typeof(IMongoContext), typeof(MongoContext));
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<,,>));
 builder.Services.AddScoped(typeof(IGenericService<>), typeof(GenericService<>));
+builder.Services.AddScoped(typeof(IGenericContext<,>), typeof(MongoContext));
+//builder.Services.AddScoped(typeof(IGenericContext<>), typeof(AppDbContext<>));
 builder.Services.AddAutoMapper(typeof(MapProfile));
 
-builder.Services.AddDbContext<AppDbContext>(x =>
-{
-    x.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"), option =>
-     {
-         option.MigrationsAssembly(Assembly.GetAssembly(typeof(AppDbContext)).GetName().Name);
-     });
-});
+//builder.Services.AddDbContext<AppDbContext>(x =>
+//{
+//    x.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"), option =>
+//     {
+//         option.MigrationsAssembly(Assembly.GetAssembly(typeof(AppDbContext)).GetName().Name);
+//     });
+//});
 
 var app = builder.Build();
 

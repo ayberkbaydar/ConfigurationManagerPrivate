@@ -12,9 +12,9 @@ namespace ConfigurationManager.Service.Services
     public class GenericService<T> : IGenericService<T> where T : class, new()
     {
         private readonly IGenericRepository<T> _repository;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork<T> _unitOfWork;
 
-        public GenericService(IGenericRepository<T> repository, IUnitOfWork unitOfWork)
+        public GenericService(IGenericRepository<T> repository, IUnitOfWork<T> unitOfWork)
         {
             _repository = repository;
             _unitOfWork = unitOfWork;

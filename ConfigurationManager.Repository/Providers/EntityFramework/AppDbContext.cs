@@ -3,17 +3,20 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Type = ConfigurationManager.Core.Models.Type;
 using File = ConfigurationManager.Core.Models.File;
-//using Environment = ConfigurationManager.Core.Models.Environment;
-//using ConfigurationManager.Core.Models.ParameterObjects;
+using ConfigurationManager.Core;
 
 namespace ConfigurationManager.Repository
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : DbContext, IGenericContext<AppDbContext, DbSet<User>>
     {
+        protected readonly AppDbContext _context;
+        protected readonly DbSet<User> _dbset;
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
-
+            _context = this;
+            _dbset = _context.Set<User>();
         }
+
         public DbSet<User> Users { get; set; }
         public DbSet<Type> Types { get; set; }
         //public DbSet<Template> Templates { get; set; }
@@ -25,6 +28,17 @@ namespace ConfigurationManager.Repository
         public DbSet<File> Files { get; set; }
         //public DbSet<Environment> Environments { get; set; }
         public DbSet<Draft> Drafts { get; set; }
+
+        public AppDbContext CreateContext()
+        {
+            return _context;
+        }
+
+        public DbSet<User> CreateDbSet()
+        {
+            return _dbset;
+        }
+
         //public DbSet<Cluster> Clusters { get; set; }
         //public DbSet<AuditLog> AuditLogs { get; set; }
         //public DbSet<TextBox> TextBoxes { get; set; }
