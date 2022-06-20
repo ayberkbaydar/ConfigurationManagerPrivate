@@ -4,7 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System.Linq.Expressions;
 using MongoDB.Driver;
-using ConfigurationManager.Core.MongoDbContext;
+using ConfigurationManager.Repository.Providers.GenericContext.Interfaces;
+using ConfigurationManager.Repository.Providers.GenericContext.Concrete;
 
 namespace ConfigurationManager.Repository.Repositories
 {
@@ -12,22 +13,41 @@ namespace ConfigurationManager.Repository.Repositories
     {
         protected readonly AppDbContext _context;
         private readonly DbSet<T> _dbset;
-        protected readonly IMongoContext _mongoContext;
+        protected readonly IGenericContext _mongoContext;
         protected readonly IMongoCollection<T> _collection;
 
-        public GenericRepository(AppDbContext context, IMongoContext mongoContext)
+
+
+
+        DbContextOptions<AppDbContext> sqlOptions;
+        IOptions<DbConfiguration> mongoOptions;
+        protected GenericContextOperation<T> _contextOperation = null;
+        const string contextType = "MongoDb";
+
+        public GenericRepository(GenericContextOperation<T> contextOperation)
         {
-            _context = context;
+            /*_context = context;
             _dbset = _context.Set<T>();
             _mongoContext = mongoContext;
-            _collection = _mongoContext.GetCollection<T>(typeof(T).Name);
+            _collection = _mongoContext.GetCollection<T>(typeof(T).Name);*/
+            _contextOperation = contextOperation;
+            if (contextType == "MongoDb")
+            {
+                _contextOperation = new GenericContextOperation<T>(new MongoContext(mongoOptions));
+                _collection = _contextOperation.GetCollection(typeof(T).Name);
+            }
+            else if (contextType == "SqlDb")
+            {
+                _contextOperation = new GenericContextOperation<T>(new AppDbContext(sqlOptions));
+            }
         }
 
         public async Task AddAsync(T entity)
         {
-                //await _collection.InsertOneAsync(entity).ConfigureAwait(false);
-                await _mongoContext.AddCommand(async () => await _collection.InsertOneAsync(entity));
-                //await _dbset.AddAsync(entity);
+            //await _collection.InsertOneAsync(entity).ConfigureAwait(false);
+            //await _mongoContext.AddCommand(async () => await _collection.InsertOneAsync(entity));
+            await _contextOperation.AddCommand(async () => await _collection.InsertOneAsync(entity));
+            //await _dbset.AddAsync(entity);
 
         }
 

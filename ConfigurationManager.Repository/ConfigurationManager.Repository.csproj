@@ -43,4 +43,8 @@
     <ProjectReference Include="..\ConfigurationManager.Core\ConfigurationManager.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Providers\MongoDB\Interfaces\" />
+  </ItemGroup>
+
 </Project>

@@ -1,8 +1,8 @@
 ﻿using MongoDB.Driver;
 
-namespace ConfigurationManager.Core.MongoDbContext
+namespace ConfigurationManager.Repository.Providers.GenericContext.Interfaces
 {
-    public interface IMongoContext : IDisposable
+    public interface IGenericContext : IDisposable
     {
         Task AddCommand(Func<Task> func);
         int SaveChanges();

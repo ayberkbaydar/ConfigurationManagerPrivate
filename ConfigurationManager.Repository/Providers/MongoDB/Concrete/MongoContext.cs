@@ -1,4 +1,4 @@
-﻿using ConfigurationManager.Core.MongoDbContext;
+﻿using ConfigurationManager.Repository.Providers.GenericContext.Interfaces;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Conventions;
@@ -6,7 +6,7 @@ using MongoDB.Driver;
 
 namespace ConfigurationManager.Repository.Providers.MongoDB
 {
-    public class MongoContext : IMongoContext
+    public class MongoContext : IGenericContext
     {
         private readonly IOptions<DbConfiguration> _options;
         private IMongoDatabase Database { get; set; }
@@ -22,12 +22,12 @@ namespace ConfigurationManager.Repository.Providers.MongoDB
             RegisterConventions();
 
             _options = options;
-            var mongoClient = new MongoClient(options.Value.ConnectionString);
-            Database = mongoClient.GetDatabase(options.Value.DatabaseName);
+            var mongoClient = new MongoClient(_options.Value.ConnectionString);
+            Database = mongoClient.GetDatabase(_options.Value.DatabaseName);
         }
 
         //Persistance
-        private void RegisterConventions()
+        private static void RegisterConventions()
         {
             var pack = new ConventionPack
             {

@@ -3,12 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Type = ConfigurationManager.Core.Models.Type;
 using File = ConfigurationManager.Core.Models.File;
+using ConfigurationManager.Repository.Providers.GenericContext.Interfaces;
+using MongoDB.Driver;
 //using Environment = ConfigurationManager.Core.Models.Environment;
 //using ConfigurationManager.Core.Models.ParameterObjects;
 
 namespace ConfigurationManager.Repository
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : DbContext,IGenericContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -25,6 +27,22 @@ namespace ConfigurationManager.Repository
         public DbSet<File> Files { get; set; }
         //public DbSet<Environment> Environments { get; set; }
         public DbSet<Draft> Drafts { get; set; }
+
+        public Task AddCommand(Func<Task> func)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IMongoCollection<T> GetCollection<T>(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> SaveChangesAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         //public DbSet<Cluster> Clusters { get; set; }
         //public DbSet<AuditLog> AuditLogs { get; set; }
         //public DbSet<TextBox> TextBoxes { get; set; }

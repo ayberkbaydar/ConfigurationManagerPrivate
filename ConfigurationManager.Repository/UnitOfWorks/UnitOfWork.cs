@@ -1,13 +1,13 @@
-﻿using ConfigurationManager.Core.MongoDbContext;
-using ConfigurationManager.Core.UnitOfWorks;
+﻿using ConfigurationManager.Core.UnitOfWorks;
+using ConfigurationManager.Repository.Providers.GenericContext.Interfaces;
 
 namespace ConfigurationManager.Repository.UnitOfWorks
 {
     public class UnitOfWork : IUnitOfWork
     {
         private readonly AppDbContext _context;
-        private readonly IMongoContext _mongoContext;
-        public UnitOfWork(AppDbContext context, IMongoContext mongoContext)
+        private readonly IGenericContext _mongoContext;
+        public UnitOfWork(AppDbContext context, IGenericContext mongoContext)
         {
             _context = context;
             _mongoContext = mongoContext;
